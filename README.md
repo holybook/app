@@ -14,7 +14,7 @@ fetch-index → fetch-content → holybook/data repo → import → PostgreSQL �
 
 ## Quick start
 
-Requirements: Go 1.25+, PostgreSQL 14+, and the
+Requirements: Go 1.26+, PostgreSQL 14+, and the
 [holybook/data](https://github.com/holybook/data) repository checked out next
 to this one (`../data`).
 

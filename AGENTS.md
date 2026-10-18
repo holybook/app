@@ -44,7 +44,7 @@ trip), `HOLYBOOK_DATA` (live fetch parity).
 
 ## Conventions
 
-- Go 1.25, standard library first (`net/http` routing, `html/template`,
+- Go 1.26, standard library first (`net/http` routing, `html/template`,
   `log/slog`, `flag`). Dependencies: pgx, goquery, genai, x/text, x/term.
 - Configuration through environment variables (see README); database passwords
   only via `DB_PASSWORD` or a prompt, never in URLs or flags.
