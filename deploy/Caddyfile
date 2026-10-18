@@ -1,0 +1,15 @@
+# SITE_ADDRESS is set via the environment (see compose.yaml / .env).
+# A bare domain (e.g. holybook.app) makes Caddy provision a Let's Encrypt
+# certificate automatically. Use :80 to test over plain HTTP against an IP.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# The Go server renders all pages and serves its own (fingerprinted,
+	# immutable-cached) static files, so Caddy only terminates TLS.
+	reverse_proxy {$SERVER_UPSTREAM:web:8080}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+}

@@ -1,0 +1,55 @@
+{{define "page-class"}}library{{end}}
+
+{{define "main"}}
+<div class="container">
+  <header class="hero">
+    <p class="eyebrow">The Library</p>
+    <h1 class="hero__title">Sacred writings, beautifully readable</h1>
+    <p class="hero__subtitle">{{plural .TotalWorks "work" "works"}} by {{plural .TotalAuthors "author" "authors"}}. Browse below, or search the full text from anywhere.</p>
+  </header>
+
+  <form class="filter" action="/" method="get" role="search">
+    {{icon "search"}}
+    <input class="filter__input" type="search" name="filter" value="{{.Filter}}"
+           placeholder="Filter by author or title…" aria-label="Filter by author or title" autocomplete="off"
+           hx-get="/" hx-trigger="input changed delay:150ms, search" hx-include="closest form"
+           hx-target="#library" hx-replace-url="true">
+    <input type="hidden" name="lang" value="{{.Lang}}">
+  </form>
+
+  <div id="library" class="library" lang="{{.Lang}}" aria-live="polite">
+    {{template "library-results" .}}
+  </div>
+</div>
+{{end}}
+
+{{define "library-results"}}
+{{- if .Filter}}
+<p class="library__status">{{plural .MatchWorks "work matches" "works match"}} “{{.Filter}}”</p>
+{{- end}}
+{{- range .Groups}}
+<details class="author"{{if .Open}} open{{end}}>
+  <summary class="author__header">
+    {{icon "chevron-right"}}<span class="author__name">{{.Name}}</span><span class="count">{{.Count}}</span>
+  </summary>
+  {{- if .Years}}
+  <div class="years">
+    {{- range .Years}}
+    <details class="year"{{if .Open}} open{{end}}>
+      <summary class="year__header">{{icon "chevron-right"}}<span>{{.Year}}</span><span class="count">{{len .Books}}</span></summary>
+      <ul class="works" role="list">{{range .Books}}{{template "work" .}}{{end}}</ul>
+    </details>
+    {{- end}}
+  </div>
+  {{- else}}
+  <ul class="works" role="list">{{range .Books}}{{template "work" .}}{{end}}</ul>
+  {{- end}}
+</details>
+{{- else}}
+<p class="empty">{{if .Filter}}No works match “{{.Filter}}”.{{else}}There are no works in this language yet.{{end}}</p>
+{{- end}}
+{{end}}
+
+{{define "work"}}
+<li><a class="work" href="{{.URL}}">{{icon "book-open"}}<span class="work__title">{{.Title}}</span>{{if .Date}}<span class="work__date">{{.Date}}</span>{{end}}</a></li>
+{{- end}}

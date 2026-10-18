@@ -1,0 +1,10 @@
+/holybook
+/index.json
+*.test
+*.out
+.env
+deploy/.env
+deploy/data/
+.DS_Store
+.idea/
+.vscode/

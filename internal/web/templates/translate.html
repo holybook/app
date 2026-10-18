@@ -1,0 +1,43 @@
+{{define "page-class"}}translate{{end}}
+
+{{define "main"}}
+<div class="container container--wide">
+  <header class="intro">
+    <h1 class="intro__title">Verbatim translation</h1>
+    <p class="intro__subtitle">Find the authorized published rendering of a passage in another language.</p>
+  </header>
+
+  <form class="translator" action="/translate" method="post"
+        hx-post="/translate" hx-trigger="input delay:350ms, change, submit" hx-target="#verbatim-result" hx-sync="this:replace">
+    {{template "language-pair" .Form}}
+    <div class="panels">
+      <section class="panel">
+        <label class="panel__label" for="source">Original</label>
+        <textarea id="source" class="panel__input" name="text" lang="{{.Form.From}}" spellcheck="false"
+                  placeholder="Paste a passage to look up…">{{.Form.Text}}</textarea>
+      </section>
+      <section class="panel panel--result" aria-labelledby="result-label">
+        <h2 id="result-label" class="panel__label">Translation</h2>
+        <div id="verbatim-result" class="panel__body" aria-live="polite">{{template "verbatim-result" .}}</div>
+      </section>
+    </div>
+    <noscript><div class="form-actions"><button class="button" type="submit">Look up</button></div></noscript>
+  </form>
+</div>
+{{end}}
+
+{{define "verbatim-result"}}
+{{- with .Result}}
+  {{- if .NotFound}}
+  <p class="notice">{{icon "alert"}}<span>Could not find this passage in {{langName .Lang}}.</span></p>
+  {{- else}}
+  <blockquote class="quote" lang="{{.Lang}}">{{.Text}}</blockquote>
+  <div class="result-actions">
+    <a class="cite" href="{{.CiteURL}}">{{icon "bookmark"}}<span>{{.Cite}}</span></a>
+    <button type="button" class="icon-button" data-copy="{{.Text}}" aria-label="Copy translation" title="Copy">{{icon "copy"}}</button>
+  </div>
+  {{- end}}
+{{- else}}
+  <p class="placeholder">{{icon "feather"}}<span>The authorized translation will appear here.</span></p>
+{{- end}}
+{{end}}

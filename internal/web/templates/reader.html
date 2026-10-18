@@ -1,0 +1,40 @@
+{{define "page-class"}}reader{{end}}
+
+{{define "main"}}
+<div class="reader{{if .TOC}} reader--toc{{end}}">
+  {{- if .TOC}}
+  <aside class="toc" aria-label="Table of contents">
+    <details class="toc__panel" open data-toc>
+      <summary class="toc__toggle">{{icon "list"}}<span>Contents</span>{{icon "chevron-down"}}</summary>
+      <nav class="toc__list">
+        <ol role="list">
+          {{- range .TOC}}
+          <li class="toc__entry toc__entry--l{{.Level}}"><a href="#p-{{.Index}}" data-toc-link="{{.Index}}"><span class="toc__number">{{.Section}}</span><span class="toc__text">{{.Text}}</span></a></li>
+          {{- end}}
+        </ol>
+      </nav>
+    </details>
+  </aside>
+  {{- end}}
+
+  <article class="book" lang="{{.Lang}}">
+    <header class="book__head">
+      {{- if .Author}}<p class="eyebrow">{{.Author}}</p>{{end}}
+      <h1 class="book__title">{{.BookTitle}}</h1>
+      <div class="ornament" aria-hidden="true"><span></span></div>
+    </header>
+    <div class="book__text" data-book-text>
+      {{- range .Paragraphs}}
+      {{- if .IsSectionTitle}}
+      <div id="p-{{.Index}}" class="section-title section-title--l{{.Level}}" role="heading" aria-level="{{.Level}}" data-section="{{.Index}}"><span class="section-title__number">{{.Section}}</span><span class="section-title__text">{{.Text}}</span></div>
+      {{- else}}
+      <p id="p-{{.Index}}" class="par par--{{.Type}}">{{if .Label}}<a class="par__num" href="#p-{{.Index}}" aria-label="Paragraph {{.Label}}">{{.Label}}</a>{{end}}{{.Text}}</p>
+      {{- end}}
+      {{- else}}
+      <p class="empty">This book has no text in this language.</p>
+      {{- end}}
+    </div>
+  </article>
+</div>
+<a class="to-top" href="#main" aria-label="Back to top" data-to-top>{{icon "arrow-up"}}</a>
+{{end}}

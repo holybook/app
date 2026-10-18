@@ -1,0 +1,57 @@
+{{define "page-class"}}translate{{end}}
+
+{{define "main"}}
+<div class="container container--wide">
+  <header class="intro">
+    <h1 class="intro__title">AI translation <span class="badge">{{icon "sparkles"}}Beta</span></h1>
+    <p class="intro__subtitle">Render a passage into another language. Quotations from the writings are replaced by their authorized translations.</p>
+  </header>
+
+  {{- if not .Available}}
+  <p class="notice">{{icon "alert"}}<span>AI translation is not available on this server.</span></p>
+  {{- end}}
+
+  <form id="ai-form" class="translator" action="/aitranslate" method="post"
+        hx-post="/aitranslate" hx-target="#ai-result" hx-indicator="#ai-form" hx-disabled-elt="find button[type=submit]">
+    {{template "language-pair" .Form}}
+    <div class="panels">
+      <section class="panel">
+        <label class="panel__label" for="source">Original</label>
+        <textarea id="source" class="panel__input" name="text" lang="{{.Form.From}}" required
+                  placeholder="Enter the text you want translated…">{{.Form.Text}}</textarea>
+        <div class="form-actions">
+          <button class="button" type="submit"{{if not .Available}} disabled{{end}}>
+            <span class="spinner" aria-hidden="true"></span>{{icon "sparkles"}}<span>Translate with AI</span>
+          </button>
+        </div>
+      </section>
+      <section class="panel panel--result" aria-labelledby="result-label">
+        <h2 id="result-label" class="panel__label">Translation</h2>
+        <div class="panel__body">
+          <p class="placeholder loading">{{icon "feather"}}<span>Translating… this can take a little while.</span></p>
+          <div id="ai-result" class="ai-result" aria-live="polite">{{template "ai-result" .}}</div>
+        </div>
+      </section>
+    </div>
+  </form>
+</div>
+{{end}}
+
+{{define "ai-result"}}
+{{- if .Error}}
+  <p class="notice notice--error">{{icon "alert"}}<span>{{.Error}}</span></p>
+{{- else if .Result}}
+  <div class="ai-paragraphs" lang="{{.Form.To}}">
+    {{- range .Result}}
+    <div class="ai-par">
+      <p>{{.Text}}</p>
+      {{- if .CiteURL}}<a class="cite" href="{{.CiteURL}}">{{icon "bookmark"}}<span>{{.Cite}}</span></a>{{end}}
+    </div>
+    {{- end}}
+  </div>
+{{- else if .Submitted}}
+  <p class="notice">{{icon "alert"}}<span>No translation results available.</span></p>
+{{- else}}
+  <p class="placeholder">{{icon "feather"}}<span>Your translation will appear here.</span></p>
+{{- end}}
+{{end}}

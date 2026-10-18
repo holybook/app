@@ -1,0 +1,12 @@
+{{define "page-class"}}error{{end}}
+
+{{define "main"}}
+<div class="container">
+  <div class="empty-state">
+    <p class="eyebrow">Error {{.Status}}</p>
+    <h1>{{.Heading}}</h1>
+    <p>{{.Message}}</p>
+    <a class="button" href="/">{{icon "library"}}<span>Back to the library</span></a>
+  </div>
+</div>
+{{end}}

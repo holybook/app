@@ -1,0 +1,58 @@
+{{define "page-class"}}search{{end}}
+
+{{define "main"}}
+<div class="container">
+  {{- if not .Query}}
+  <div class="empty-state">
+    <span class="empty-state__icon">{{icon "search"}}</span>
+    <h1>Search the writings</h1>
+    <p>Type a word or phrase into the search box above.</p>
+    {{template "search-tips"}}
+  </div>
+  {{- else}}
+  <header class="search-head">
+    <h1 class="search-head__title">{{plural .Total "result" "results"}}</h1>
+    <p class="search-head__query">for <q>{{.Query}}</q> in {{.ActiveLangName}}</p>
+  </header>
+  {{- if .Results}}
+  <ol class="results" role="list" lang="{{.Lang}}">
+    {{template "search-results" .}}
+  </ol>
+  {{- else}}
+  <div class="empty-state empty-state--compact">
+    <p>No passages matched your search.</p>
+    {{template "search-tips"}}
+  </div>
+  {{- end}}
+  {{- end}}
+</div>
+{{end}}
+
+{{define "search-tips"}}
+<ul class="search-tips" role="list">
+  <li><kbd>"pure heart"</kbd> finds the exact phrase</li>
+  <li><kbd>justice -unity</kbd> excludes a word</li>
+  <li><kbd>prayer or meditation</kbd> finds either word</li>
+</ul>
+{{end}}
+
+{{define "search-results"}}
+{{- range .Results}}
+<li>
+  <a class="result" href="{{.URL}}">
+    <p class="result__text">{{.HTML}}</p>
+    <p class="result__cite">
+      <span class="result__author">{{.Author}}</span><span class="sep" aria-hidden="true">·</span><span class="result__title">{{.Title}}</span>
+      {{- if .Label}}<span class="result__par">¶ {{.Label}}</span>{{end}}
+    </p>
+  </a>
+</li>
+{{- end}}
+{{- if .NextURL}}
+<li class="results__more">
+  <a class="button button--ghost" href="{{.NextURL}}" hx-get="{{.NextURL}}" hx-trigger="revealed" hx-target="closest li" hx-swap="outerHTML">
+    <span class="when-idle">Load more results</span><span class="when-busy">Loading…</span>
+  </a>
+</li>
+{{- end}}
+{{end}}

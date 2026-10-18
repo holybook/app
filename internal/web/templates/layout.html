@@ -1,0 +1,61 @@
+{{define "layout.html" -}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{if .Title}}{{.Title}} · {{end}}Holybook</title>
+  <meta name="description" content="{{or .Description "Read, browse and search the Bahá’í holy writings across languages."}}">
+  <meta name="theme-color" content="#fdfbf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c191f" media="(prefers-color-scheme: dark)">
+  <meta name="htmx-config" content='{"allowEval":false}'>
+  <link rel="icon" href="{{asset "favicon.svg"}}" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="{{asset "app.css"}}">
+  <script src="{{asset "htmx.min.js"}}" defer></script>
+  <script src="{{asset "app.js"}}" defer></script>
+</head>
+<body class="page-{{template "page-class" .}}">
+{{template "icons"}}
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/{{if ne .Lang "en"}}?lang={{.Lang}}{{end}}" class="brand" aria-label="Holybook — library">
+      <span class="brand__mark">{{icon "book-open"}}</span>
+      <span class="brand__name">Holybook</span>
+    </a>
+    <form class="searchbar" role="search" action="/search" method="get">
+      {{icon "search"}}
+      <input class="searchbar__input" type="search" name="q" value="{{.Query}}" placeholder="Search the writings…"
+             aria-label="Search the writings" enterkeyhint="search" autocomplete="off">
+      <input type="hidden" name="lang" value="{{.Lang}}">
+    </form>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/{{if ne .Lang "en"}}?lang={{.Lang}}{{end}}" class="site-nav__link"{{if eq .Nav "library"}} aria-current="page"{{end}}>{{icon "library"}}<span>Library</span></a>
+      <a href="/translate" class="site-nav__link"{{if eq .Nav "translate"}} aria-current="page"{{end}}>{{icon "languages"}}<span>Translate</span></a>
+      <a href="/aitranslate" class="site-nav__link"{{if eq .Nav "aitranslate"}} aria-current="page"{{end}}>{{icon "sparkles"}}<span>AI Translate</span></a>
+    </nav>
+    {{- if .LangOptions}}
+    <details class="lang-menu" data-dismissable>
+      <summary class="lang-menu__button" aria-label="Language: {{.ActiveLangName}}">{{icon "globe"}}<span>{{.Lang}}</span>{{icon "chevron-down"}}</summary>
+      <ul class="lang-menu__list" role="list">
+        {{- range .LangOptions}}
+        <li><a class="lang-menu__item" href="{{.URL}}" hreflang="{{.Code}}" lang="{{.Code}}" data-lang-link{{if .Active}} aria-current="true"{{end}}>{{.Name}}{{if .Active}}{{icon "check"}}{{end}}</a></li>
+        {{- end}}
+      </ul>
+    </details>
+    {{- end}}
+  </div>
+</header>
+<main id="main" tabindex="-1">
+{{template "main" .}}
+</main>
+<footer class="site-footer">
+  <p>Holybook · Texts from the <a href="https://www.bahai.org/library/">Bahá’í Reference Library</a> and <a href="https://bibliothek.bahai.de/">bibliothek.bahai.de</a></p>
+</footer>
+</body>
+</html>
+{{- end}}

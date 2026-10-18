@@ -1,0 +1,39 @@
+name: CI
+
+# Runs on pull requests; pushes to main run it via the deploy workflow.
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: holybook
+          POSTGRES_PASSWORD: holybook
+          POSTGRES_DB: holybook_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U holybook -d holybook_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Check formatting
+        run: test -z "$(gofmt -l .)" || (gofmt -l . && exit 1)
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        env:
+          HOLYBOOK_TEST_DATABASE_URL: postgres://holybook:holybook@localhost:5432/holybook_test
+        run: go test -race ./...
