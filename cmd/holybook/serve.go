@@ -12,6 +12,7 @@ import (
 
 	"golang.org/x/term"
 
+	"github.com/holybook/go/internal/mcp"
 	"github.com/holybook/go/internal/store"
 	"github.com/holybook/go/internal/translate"
 	"github.com/holybook/go/internal/web"
@@ -53,6 +54,7 @@ func serve(ctx context.Context, args []string) error {
 	addr := fs.String("addr", ":"+env("PORT", "8080"), "listen address [$PORT]")
 	dev := fs.String("dev", "", "read templates and static files from this directory (e.g. internal/web) on every request")
 	model := fs.String("model", env("GEMINI_MODEL", translate.DefaultModel), "Gemini model for AI translation [$GEMINI_MODEL]")
+	publicURL := fs.String("public-url", env("PUBLIC_BASE_URL", "https://holybook.app"), "public origin of the website, for links in MCP tool results [$PUBLIC_BASE_URL]")
 	db := addDBFlags(fs, "")
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -67,7 +69,7 @@ func serve(ctx context.Context, args []string) error {
 		slog.Warn("the database has no content or an outdated schema; run 'holybook import'", "err", err)
 	}
 
-	opts := web.Options{Store: st, DevDir: *dev}
+	opts := web.Options{Store: st, DevDir: *dev, MCP: mcp.NewHandler(st, *publicURL)}
 	if key := os.Getenv("GEMINI_API_KEY"); key != "" {
 		g, err := translate.NewGemini(ctx, key, *model)
 		if err != nil {

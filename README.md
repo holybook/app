@@ -5,8 +5,9 @@ authorized translation of a passage, and translate text with AI while quoting
 the authorized translations verbatim.
 
 Holybook is a single Go binary: a server-rendered website enhanced with
-[htmx](https://htmx.org), a JSON API, and the tools that fetch the texts from
-their sources and load them into PostgreSQL.
+[htmx](https://htmx.org), a JSON API, an [MCP](https://modelcontextprotocol.io)
+endpoint for AI agents, and the tools that fetch the texts from their sources
+and load them into PostgreSQL.
 
 ```
 fetch-index → fetch-content → holybook/data repo → import → PostgreSQL → serve
@@ -52,6 +53,7 @@ Run `holybook <command> -h` for flags.
 | `PORT` | `serve` | `8080` |
 | `GEMINI_API_KEY` | `serve`, `eval` | AI translation disabled |
 | `GEMINI_MODEL` | `serve`, `eval` | `gemini-3.1-flash-lite` |
+| `PUBLIC_BASE_URL` | `serve` (links in MCP results) | `https://holybook.app` |
 | `LOG_LEVEL`, `LOG_FORMAT` | all | `info`, `text` (or `json`) |
 
 Database credentials are kept out of the URL and the command line, so
@@ -87,6 +89,22 @@ The routes and response shapes of the previous Ktor server are kept:
 | `POST /api/translate` `{fromLanguage, toLanguage, text}` | `{translatedParagraph, allOriginalResults}` |
 | `POST /api/aitranslate` `{fromLanguage, toLanguage, text}` | `{paragraphs: [{annotation, text}]}` |
 
+## AI agents (MCP)
+
+`/mcp` is a public, read-only, stateless MCP endpoint (Streamable HTTP) that
+lets AI assistants search the writings and look up the authoritative
+translations of quotations:
+
+| Tool | |
+| --- | --- |
+| `search_writings` | Full-text search in one language, filterable by author and book; ranked paragraphs with citation and link. |
+| `get_passage` | Read consecutive paragraphs of a book, e.g. the context of a search result. |
+| `list_books` | Find works by author or title. |
+| `find_authoritative_translation` | For each paragraph or quotation of a text being translated: is it authoritative, where is it from, and what is its authoritative translation in the target language. |
+
+Together with two agent skills it is packaged as a plugin for Claude, Codex
+and Gemini; see [`plugins/holybook/README.md`](plugins/holybook/README.md).
+
 ## Development
 
 ```bash
@@ -104,6 +122,9 @@ make fmt
 | `internal/translate` | Gemini translators and the verbatim-preserving translation service. |
 | `internal/eval` | Translator evaluation. |
 | `internal/web` | HTTP handlers, templates, static assets (embedded in the binary). |
+| `internal/mcp` | The MCP endpoint and its tools. |
+| `internal/quote` | Recognition of quotations of the writings. |
+| `plugins` | The agent plugin; its skills are embedded and served as MCP prompts. |
 
 ## Deployment
 

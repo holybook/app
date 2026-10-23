@@ -1,5 +1,6 @@
 /holybook
 /index.json
+/build/
 *.test
 *.out
 .env

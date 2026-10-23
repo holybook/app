@@ -1,0 +1,19 @@
+{
+  "name": "holybook",
+  "owner": {
+    "name": "Holybook",
+    "url": "https://holybook.app"
+  },
+  "metadata": {
+    "description": "Plugins for working with the authoritative Bahá'í writings."
+  },
+  "plugins": [
+    {
+      "name": "holybook",
+      "source": "./plugins/holybook",
+      "description": "Research the authoritative Bahá'í writings and translate texts that quote them, using the official translations.",
+      "version": "1.0.0",
+      "category": "research"
+    }
+  ]
+}

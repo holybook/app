@@ -1,0 +1,27 @@
+{
+  "name": "holybook",
+  "version": "1.0.0",
+  "description": "Research the authoritative Bahá'í writings and translate texts that quote them, using the official translations.",
+  "author": {
+    "name": "Holybook",
+    "url": "https://holybook.app"
+  },
+  "homepage": "https://holybook.app",
+  "repository": "https://github.com/holybook/go",
+  "keywords": ["bahai", "research", "translation", "scripture", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Holybook",
+    "shortDescription": "Research and quote the Bahá'í writings",
+    "longDescription": "Search the authoritative Bahá'í writings (Bahá'u'lláh, the Báb, 'Abdu'l-Bahá, Shoghi Effendi, the Universal House of Justice) in several languages and answer with exact, cited quotations. When translating a text that quotes the writings, look up the authoritative translation of every quotation instead of retranslating it.",
+    "developerName": "Holybook",
+    "category": "Research",
+    "capabilities": ["Read"],
+    "websiteURL": "https://holybook.app",
+    "defaultPrompt": [
+      "What do the Bahá'í writings say about consultation?",
+      "Translate this talk into German, using the authoritative translations of all quotations."
+    ]
+  }
+}

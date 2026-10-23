@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "holybook": {
+      "type": "http",
+      "url": "https://holybook.app/mcp"
+    }
+  }
+}

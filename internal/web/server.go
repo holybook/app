@@ -55,12 +55,15 @@ type Options struct {
 	// static files are then read from there on every request, so edits show up
 	// without a rebuild.
 	DevDir string
+	// MCP, if set, serves the Model Context Protocol endpoint at /mcp.
+	MCP http.Handler
 }
 
 // Server is the HTTP handler of the website.
 type Server struct {
 	store      Store
 	translator Translator
+	mcp        http.Handler
 	files      fs.FS
 	dev        bool
 
@@ -77,6 +80,7 @@ func New(opts Options) (*Server, error) {
 	s := &Server{
 		store:      opts.Store,
 		translator: opts.Translator,
+		mcp:        opts.MCP,
 		files:      embedded,
 		aiSlots:    make(chan struct{}, 4),
 	}
@@ -112,6 +116,9 @@ func (s *Server) routes() {
 	m.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) {
 		writeJSONError(w, http.StatusNotFound, "not found")
 	})
+	if s.mcp != nil {
+		m.Handle("/mcp", s.mcp)
+	}
 
 	m.HandleFunc("GET /static/", s.static)
 	m.HandleFunc("GET /favicon.ico", s.rootFile("favicon.svg"))

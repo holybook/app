@@ -1,8 +1,8 @@
 # Instructions for coding agents
 
 Holybook serves the Bahá’í writings: a Go web server (server-rendered HTML with
-htmx, plus a JSON API) over PostgreSQL, and CLI tools that fetch the texts and
-import them. Everything is one binary, `cmd/holybook`. See
+htmx, a JSON API and an MCP endpoint for AI agents) over PostgreSQL, and CLI
+tools that fetch the texts and import them. Everything is one binary, `cmd/holybook`. See
 [README.md](README.md) for the feature overview.
 
 ## Layout
@@ -27,6 +27,16 @@ import them. Everything is one binary, `cmd/holybook`. See
   (`renderPage` with a fragment template name). Keep every page usable without
   JavaScript, and keep `static/app.js` to progressive enhancements. No inline
   scripts (CSP).
+- `internal/mcp` – the stateless MCP endpoint `/mcp` (official Go SDK) with the
+  tools `search_writings`, `get_passage`, `list_books` and
+  `find_authoritative_translation`. Queries in `store/research.go`.
+- `internal/quote` – recognizes quotations: normalized excerpt and overlap
+  matching, candidate retrieval through full-text search on short phrases.
+- `plugins/holybook` – the agent plugin (skills + MCP config) for Claude, Codex
+  and Gemini; see [plugins/holybook/README.md](plugins/holybook/README.md). Its
+  skills are the single source of guidance: `plugins/skills.go` embeds them and
+  the server offers them as MCP prompts. Keep the tool descriptions,
+  `internal/mcp/instructions.txt` and the skills consistent.
 
 ## Commands
 
@@ -45,11 +55,18 @@ trip), `HOLYBOOK_DATA` (live fetch parity).
 ## Conventions
 
 - Go 1.26, standard library first (`net/http` routing, `html/template`,
-  `log/slog`, `flag`). Dependencies: pgx, goquery, genai, x/text, x/term.
+  `log/slog`, `flag`). Dependencies: pgx, goquery, genai, MCP go-sdk, x/text,
+  x/term.
 - Configuration through environment variables (see README); database passwords
   only via `DB_PASSWORD` or a prompt, never in URLs or flags.
-- Paragraph indexes are identical across the language versions of a book; the
-  verbatim translation and the reader's language switch rely on it.
+- Paragraph indexes are meant to be identical across the language versions of
+  a book; the verbatim translation and the reader's language switch rely on it.
+  Many books in the data do not hold to it yet (translations add or drop
+  headings and paragraph breaks). `find_authoritative_translation` therefore
+  only maps a paragraph between languages if the versions have as many
+  paragraphs and the paragraphs have the same type and number; otherwise it
+  reports `paragraph_count_mismatch` and logs a warning with `corpus=true`.
+  Those log lines are the work list for fixing the data in holybook/data.
 
 ## Deployment
 

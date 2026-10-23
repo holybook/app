@@ -1,0 +1,11 @@
+{
+  "name": "holybook",
+  "version": "1.0.0",
+  "description": "Research the authoritative Bahá'í writings and translate texts that quote them, using the official translations.",
+  "mcpServers": {
+    "holybook": {
+      "httpUrl": "https://holybook.app/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

@@ -197,6 +197,75 @@ func TestStore(t *testing.T) {
 		}
 	})
 
+	t.Run("find paragraphs", func(t *testing.T) {
+		page, err := s.FindParagraphs(ctx, ParagraphQuery{Language: "en", Query: "justice", Limit: 10})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if page.Total != 4 || len(page.Paragraphs) != 4 {
+			t.Fatalf("page = %+v", page)
+		}
+		for _, r := range page.Paragraphs {
+			if r.Book.BookID == "uhj20200320_001" && r.Paragraph.Index == 2 && (r.Book.PublishedAt.Year() != 2020 || r.Book.Author != "The Universal House of Justice" ||
+				r.Paragraph.Text != `Justice & unity are the "foundation".`) {
+				t.Errorf("letter = %+v", r)
+			}
+		}
+		page, _ = s.FindParagraphs(ctx, ParagraphQuery{Language: "en", Query: "justice", Author: "uhj", Limit: 10})
+		if page.Total != 2 || page.Paragraphs[0].Book.AuthorCode != "uhj" {
+			t.Errorf("by author = %+v", page)
+		}
+		page, _ = s.FindParagraphs(ctx, ParagraphQuery{Language: "en", Query: "justice", BookID: "abdulbaha_talks", Limit: 10})
+		if page.Total != 1 || page.Paragraphs[0].Book.Title != "Talks" {
+			t.Errorf("by book = %+v", page)
+		}
+		page, _ = s.FindParagraphs(ctx, ParagraphQuery{Language: "en", Query: "justice", Limit: 1, Offset: 3})
+		if page.Total != 4 || len(page.Paragraphs) != 1 {
+			t.Errorf("paging = %+v", page)
+		}
+	})
+
+	t.Run("quote candidates", func(t *testing.T) {
+		ps, err := s.QuoteCandidates(ctx, "en", []string{"best beloved of all things", "nothing like this"}, 10)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(ps) != 2 {
+			t.Fatalf("candidates = %+v", ps)
+		}
+		// Phrases match on stems, not on punctuation and inflection.
+		if ps, _ := s.QuoteCandidates(ctx, "de", []string{"Liebste von allem ist Mir die Gerechtigkeit"}, 10); len(ps) != 1 || ps[0].Book.Title != "Die Verborgenen Worte" {
+			t.Errorf("german = %+v", ps)
+		}
+		if ps, _ := s.QuoteCandidates(ctx, "en", nil, 10); len(ps) != 0 {
+			t.Errorf("no phrases = %+v", ps)
+		}
+	})
+
+	t.Run("paragraph counts", func(t *testing.T) {
+		counts, err := s.ParagraphCounts(ctx, []string{"bahaullah_hidden-words", "abdulbaha_talks", "nope"})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(counts) != 2 || counts["bahaullah_hidden-words"]["de"] != 5 || counts["bahaullah_hidden-words"]["en"] != 5 ||
+			len(counts["abdulbaha_talks"]) != 1 {
+			t.Errorf("counts = %v", counts)
+		}
+	})
+
+	t.Run("paragraph at", func(t *testing.T) {
+		p, err := s.ParagraphAt(ctx, "bahaullah_hidden-words", "de", 4)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if p.Book.Title != "Die Verborgenen Worte" || p.Book.Author != "Bahá’u’lláh" || p.Paragraph.Label() != "2:1" {
+			t.Errorf("paragraph = %+v", p)
+		}
+		if _, err := s.ParagraphAt(ctx, "abdulbaha_talks", "de", 0); err != ErrNotFound {
+			t.Errorf("missing err = %v", err)
+		}
+	})
+
 	t.Run("outdated schema forces reimport", func(t *testing.T) {
 		if _, err := s.pool.Exec(ctx, `UPDATE sync_state SET value = '1' WHERE key = 'schema_version'`); err != nil {
 			t.Fatal(err)

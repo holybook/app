@@ -1,0 +1,20 @@
+{
+  "name": "holybook",
+  "interface": {
+    "displayName": "Holybook"
+  },
+  "plugins": [
+    {
+      "name": "holybook",
+      "source": {
+        "source": "local",
+        "path": "./plugins/holybook"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    }
+  ]
+}
