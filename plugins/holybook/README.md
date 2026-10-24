@@ -37,14 +37,22 @@ the server.
 
 ### Claude (claude.ai, Claude Desktop)
 
-1. **Connector:** *Settings → Connectors → Add custom connector*, name `Holybook`, URL
-   `https://holybook.app/mcp`. No authentication is needed.
-2. **Skills:** run `scripts/package_agent_skills.sh` in this repository and upload
-   `build/agent-packages/bahai-writings-research.zip` and
-   `build/agent-packages/bahai-quote-translation.zip` under *Settings → Capabilities → Skills*.
+Plugins are available on all paid plans.
 
-On Team and Enterprise plans an owner adds the connector and can provision the skills for the
-whole organization.
+1. *Customize → Plugins → Add → Add marketplace → Add from a repository*, enter `holybook/app`.
+2. Install **holybook** from that marketplace. This adds both skills.
+3. Open the plugin's **Connectors** tab and connect `holybook`. Unlike Claude Code, claude.ai and
+   Cowork do not connect a plugin's MCP server on their own; until it is connected, the skills
+   load but the tools are missing. No sign-in is needed.
+4. In a new chat, check that holybook is enabled under **+ → Connectors** in the message box.
+
+Plugins installed on claude.ai are saved to the account, so they also appear in Claude Desktop,
+Cowork and Claude Code (v2.1.273 or later). On Team and Enterprise plans an Owner can make the
+plugin available or install it for the whole organization.
+
+Without plugins, add the parts separately: the connector under *Settings → Connectors → Add
+custom connector* (URL `https://holybook.app/mcp`), and the skills as zips built with
+`scripts/package_agent_skills.sh` under *Settings → Capabilities → Skills*.
 
 ### Codex
 
