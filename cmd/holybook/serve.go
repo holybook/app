@@ -12,10 +12,10 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/holybook/go/internal/mcp"
-	"github.com/holybook/go/internal/store"
-	"github.com/holybook/go/internal/translate"
-	"github.com/holybook/go/internal/web"
+	"github.com/holybook/app/internal/mcp"
+	"github.com/holybook/app/internal/store"
+	"github.com/holybook/app/internal/translate"
+	"github.com/holybook/app/internal/web"
 )
 
 // dbOptions are the database connection flags shared by the commands.

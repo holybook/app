@@ -9,8 +9,8 @@ import (
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
 )
 
 // fakeStore holds books as paragraph texts per language.

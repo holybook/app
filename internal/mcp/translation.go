@@ -12,8 +12,8 @@ import (
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"github.com/holybook/go/internal/quote"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/quote"
+	"github.com/holybook/app/internal/store"
 )
 
 const (

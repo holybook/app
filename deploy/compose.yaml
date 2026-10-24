@@ -7,7 +7,7 @@ name: holybook
 
 services:
   web:
-    image: ${HOLYBOOK_IMAGE:-ghcr.io/holybook/go:latest}
+    image: ${HOLYBOOK_IMAGE:-ghcr.io/holybook/app:latest}
     restart: unless-stopped
     command: ["serve"]
     environment:
@@ -64,7 +64,7 @@ services:
   # `docker compose run`. The content/ folder of the holybook/data clone is
   # mounted read-only.
   importer:
-    image: ${HOLYBOOK_IMAGE:-ghcr.io/holybook/go:latest}
+    image: ${HOLYBOOK_IMAGE:-ghcr.io/holybook/app:latest}
     profiles: ["tools"]
     restart: "no"
     entrypoint: ["/holybook", "import"]

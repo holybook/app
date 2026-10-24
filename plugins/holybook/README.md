@@ -28,7 +28,7 @@ connect the MCP server still get the guidance.
 ### Claude Code
 
 ```bash
-claude plugin marketplace add holybook/go
+claude plugin marketplace add holybook/app
 claude plugin install holybook@holybook
 ```
 
@@ -49,7 +49,7 @@ whole organization.
 ### Codex
 
 ```bash
-codex plugin marketplace add holybook/go
+codex plugin marketplace add holybook/app
 ```
 
 Then install *Holybook* from the plugin list in Codex (or the plugins page of the ChatGPT desktop
@@ -78,7 +78,7 @@ Gem:
 The folder is also a Gemini CLI extension (MCP server, skills and `GEMINI.md` context):
 
 ```bash
-git clone https://github.com/holybook/go.git holybook
+git clone https://github.com/holybook/app.git holybook
 gemini extensions install ./holybook/plugins/holybook
 ```
 

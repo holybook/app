@@ -1,4 +1,4 @@
-module github.com/holybook/go
+module github.com/holybook/app
 
 go 1.26.0
 

@@ -11,7 +11,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 
-	"github.com/holybook/go/internal/book"
+	"github.com/holybook/app/internal/book"
 )
 
 // source is a web page listing books, and the index file its descriptors are

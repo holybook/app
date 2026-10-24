@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/holybook/go/internal/book"
+	"github.com/holybook/app/internal/book"
 )
 
 // testStore connects to HOLYBOOK_TEST_DATABASE_URL and imports a small fixture

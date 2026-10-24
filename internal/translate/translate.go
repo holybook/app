@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/store"
 )
 
 // ParagraphWithID is a paragraph optionally tied to an authoritative

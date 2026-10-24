@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/holybook/go/internal/book"
+	"github.com/holybook/app/internal/book"
 )
 
 // TestLiveParity fetches a few books from the real sources and compares them

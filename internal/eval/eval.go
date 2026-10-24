@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/holybook/go/internal/translate"
+	"github.com/holybook/app/internal/translate"
 )
 
 // Input is one evaluation case. Paragraphs with an id quote the reference

@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
 )
 
 // The JSON API keeps the routes and response shapes of the original Ktor

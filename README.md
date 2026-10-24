@@ -130,5 +130,5 @@ make fmt
 
 A single DigitalOcean droplet runs PostgreSQL, the holybook server and Caddy
 with Docker Compose. Pushes to `main` are tested, built into one image
-(`ghcr.io/holybook/go`) and deployed by GitHub Actions. See
+(`ghcr.io/holybook/app`) and deployed by GitHub Actions. See
 [`deploy/README.md`](deploy/README.md).

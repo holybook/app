@@ -19,10 +19,10 @@ import (
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/quote"
-	"github.com/holybook/go/internal/store"
-	"github.com/holybook/go/plugins"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/quote"
+	"github.com/holybook/app/internal/store"
+	"github.com/holybook/app/plugins"
 )
 
 //go:embed instructions.txt

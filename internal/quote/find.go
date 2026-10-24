@@ -5,7 +5,7 @@ import (
 	"context"
 	"slices"
 
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/store"
 )
 
 // MatchType is how a text relates to a paragraph it was matched against,

@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
-	"github.com/holybook/go/internal/translate"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
+	"github.com/holybook/app/internal/translate"
 )
 
 type fakeStore struct{}

@@ -11,7 +11,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 
-	"github.com/holybook/go/internal/book"
+	"github.com/holybook/app/internal/book"
 )
 
 // parsedBook is what a content parser extracts from a source document.

@@ -9,7 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/holybook/go/internal/book"
+	"github.com/holybook/app/internal/book"
 )
 
 // Translation is one language version of a book, as listed in the library.

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/holybook/go/internal/translate"
+	"github.com/holybook/app/internal/translate"
 )
 
 type echo struct{}

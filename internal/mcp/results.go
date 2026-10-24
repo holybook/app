@@ -4,8 +4,8 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
 )
 
 // Result shapes of the tools. They are tuned for agents: everything needed to

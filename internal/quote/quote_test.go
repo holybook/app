@@ -5,8 +5,8 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
 )
 
 const paragraph = "The earth is but one country, and mankind its citizens. Bahá’u’lláh has said that the " +

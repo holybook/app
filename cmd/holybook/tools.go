@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/eval"
-	"github.com/holybook/go/internal/fetch"
-	"github.com/holybook/go/internal/translate"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/eval"
+	"github.com/holybook/app/internal/fetch"
+	"github.com/holybook/app/internal/translate"
 )
 
 // xmlFiles yields the .xml files below dir in lexical order.

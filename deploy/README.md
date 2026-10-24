@@ -8,7 +8,7 @@ Docker Compose:
 - **caddy** – TLS termination and reverse proxy, with automatic Let's Encrypt
   certificates
 
-The same image (`ghcr.io/holybook/go`) also runs the one-off **importer**.
+The same image (`ghcr.io/holybook/app`) also runs the one-off **importer**.
 
 [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) runs on every
 push to `main`: it runs the tests, builds and pushes the image, copies the files

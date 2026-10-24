@@ -12,8 +12,8 @@ import (
 
 	"google.golang.org/genai"
 
-	"github.com/holybook/go/internal/book"
-	"github.com/holybook/go/internal/store"
+	"github.com/holybook/app/internal/book"
+	"github.com/holybook/app/internal/store"
 )
 
 type fakeFinder map[string]*store.VerbatimResult
